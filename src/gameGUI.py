@@ -4,9 +4,22 @@ import scraper
 
 manager = model.GameMananger()
 
+def onGuess():
+    guess = months_clicked.get() + "/" + days_clicked.get() + "/" + years_clicked.get()
+    print(guess)
+    if guess == "January/1/1970": #manager.checkDate(guess):
+        urlLabel.config(text = manager.url)
+
+
 root = tk.Tk()
 root.geometry("200x200")
 root.title("RetroGuessr")
+
+
+headlineString = manager.headline
+headlineLabel = tk.Label(root, text=headlineString)
+headlineLabel.pack()
+
 
 years = list(range(scraper.Scraper().firstYear, scraper.Scraper().lastYear+1))
 years_clicked = tk.StringVar()
@@ -24,5 +37,13 @@ days_clicked.set("1")
 days_drop = tk.OptionMenu(root,days_clicked,*days)
 days_drop.pack()
 
+guessButton = tk.Button(root, text="Guess!", command = onGuess)
+guessButton.pack()
+
+urlLabel = tk.Label(root)
+urlLabel.pack()
+
+
 
 root.mainloop()
+

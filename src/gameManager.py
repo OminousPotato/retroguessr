@@ -95,4 +95,8 @@ class GameMananger:
 
     def checkDateGuess(self, date):
         if (self.guessesRemaining > 0 and self.validateDate(date)):
+            self.guessesRemaining -= 1
+            print(date)
             return date == self.date
+
+        
