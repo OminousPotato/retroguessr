@@ -30,8 +30,8 @@ class GameMananger:
         #Pick category
         choices = []
 
-        for category in self.categories.keys:
-            if self.categories(category):
+        for category in self.categories.keys():
+            if self.categories[category]:
                choices.append(category)
         
         line = scraper.getHeadline(random.choice(choices))
