@@ -52,7 +52,5 @@ class Scraper:
             return self.getHeadline(categoryName)
 
 
-scraper = Scraper()
-print(scraper.getHeadline("sports"))
 
 

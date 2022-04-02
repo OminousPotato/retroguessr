@@ -6,6 +6,36 @@ class GameMananger:
 
     #categoriesList = ["world", "sports", "us", "arts", "books", "movies"]
 
+    months = [
+        "January", 
+        "February", 
+        "March", 
+        "April", 
+        "May", 
+        "June", 
+        "July", 
+        "August", 
+        "September", 
+        "October",
+        "November", 
+        "Decemeber"
+    ]
+
+    monthToDays = {
+        1:31,
+        2:28,
+        3:31,
+        4:30,
+        5:31,
+        6:30,
+        7:31,
+        8:31,
+        9:30,
+        10:31,
+        11:30,
+        12:31
+        }
+
     categories = {
         "world" : True,
         "sports" : True,
@@ -18,6 +48,7 @@ class GameMananger:
     headline = ""
     date = ""
     url = "" 
+    scraper = scraper.Scraper()
 
     def __init__(self):
         self.newGame()
@@ -34,7 +65,7 @@ class GameMananger:
             if self.categories[category]:
                choices.append(category)
         
-        line = scraper.getHeadline(random.choice(choices))
+        line = self.scraper.getHeadline(random.choice(choices))
 
         self.headline = line[0]
         self.date = line[1]
@@ -43,21 +74,6 @@ class GameMananger:
     #Make sure the date is in MM/DD/YYYY
     def validateDate(self, date):
         try:
-            monthToDays = {
-            1:31,
-            2:28,
-            3:31,
-            4:30,
-            5:31,
-            6:30,
-            7:31,
-            8:31,
-            9:30,
-            10:31,
-            11:30,
-            12:31
-            }
-
             comps = date.strip().split("/")
             month = int(comps[0])
             day = int(comps[1])
@@ -66,7 +82,7 @@ class GameMananger:
             if month < 0 or month > 12:
                 return False
             
-            if day < 0 or day > monthToDays(month):
+            if day < 0 or day > self.monthToDays(month):
                 return False
 
             if year < 1970 or year > 2011:
