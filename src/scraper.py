@@ -46,6 +46,8 @@ class Scraper:
             if (header.text == None or len(header.text) == 0):
                 raise Exception
             header_url = header.find_parent("a").get("href")
+            if header_url[0] == "/":
+                header_url = "https://nytimes.com" + header_url
             return [header.text, day+"/"+month+"/"+str(year), header_url]
         except:
             return self.getHeadlineByYear(year, categoryName)
