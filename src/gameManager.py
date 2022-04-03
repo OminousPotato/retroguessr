@@ -1,6 +1,8 @@
 from operator import truediv
+from leaderBoardIO import LeaderBoardIO
 import scraper
 import random
+from datetime import date
 
 class GameMananger:
 
@@ -54,12 +56,17 @@ class GameMananger:
     guesses = 0
     #status of the current game
     gameOver = False
+    #status of if hints were used
+    hintsOn = False
+    #the leaderboad manager
+    leaderBoard = LeaderBoardIO()
 
     def __init__(self):
         self.newGame()
 
     def newGame(self):
         self.gameOver = False
+        self.hintsOn = False
         self.guesses = 0
         self.year = random.choice(range(self.scraper.firstYear,self.scraper.lastYear+1))
         print(self.year)
@@ -126,7 +133,8 @@ class GameMananger:
 
         self.gameOver = self.year == year
 
-        print(self.gameOver)
+        if(self.gameOver):
+            self.leaderBoard.addToLeaderBoard([self.guesses,self.year,date.today().strftime("%b-%d-%Y"),self.hintsOn])
 
         return self.gameOver
 

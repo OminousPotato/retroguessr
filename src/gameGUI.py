@@ -11,9 +11,11 @@ def onGuess():
     if (manager.gameOver):
         return
     year = int(years_clicked.get())
+
     if not manager.checkDateGuess(int(year)):
         if hintsOn.get():
             hint.grid()
+            manager.hintsOn = True
         else:
             hint.grid_remove()
 
@@ -55,6 +57,20 @@ def table_click_handler(event):
         url = list(selected.values())[2][2]
         webbrowser.open(url)
 
+def openLeaderBoard():
+    top = Toplevel(root)
+    top.title("Leaderboard")
+    cols = ("Guesses","Year","Date Achieve","Hints On")
+    leaderBoardTable = ttk.Treeview(top, columns = cols, show="headings")
+    #set the column headings
+    for col in cols:
+        leaderBoardTable.heading(col, text = col)
+    for rowData in manager.leaderBoard.leaderBoard:
+        leaderBoardTable.insert("","end",value = rowData)
+
+    leaderBoardTable.pack()
+
+
 def openHelpMenu():
     top = Toplevel(root)
     top.title("How To Play")
@@ -92,6 +108,8 @@ hintsOn.set(False)
 optionsMenu = tk.Menu(menuBar, tearoff = 0)
 optionsMenu.add_checkbutton(label = "Show Hints", onvalue = True, offvalue = False, variable = hintsOn)
 menuBar.add_cascade(label = "Options", menu = optionsMenu)
+#Leaderboard Button
+menuBar.add_command(label = "Leaderboard", command = openLeaderBoard)
 #Help Button
 menuBar.add_command(label="Help", command = openHelpMenu)
 
