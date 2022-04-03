@@ -69,6 +69,10 @@ root.iconphoto(True, PhotoImage(file = "rg_icon.png"))
 menuBar = tk.Menu(root)
 menuBar.add_command(label="Help", command = openHelpMenu)
 
+bg = tk.PhotoImage(file="src/newspapers2.gif")
+bgLabel = tk.Label(root, image = bg)
+bgLabel.place(x=0, y=0, relwidth=1, relheight=1)
+
 #The Theme
 s = ttk.Style()
 s.theme_use("classic")
