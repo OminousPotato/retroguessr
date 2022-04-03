@@ -5,7 +5,7 @@ import random
 class GameMananger:
 
     #categoriesList = ["world", "sports", "us", "arts", "books", "movies"]
-
+    #Stores the months
     months = [
         "January", 
         "February", 
@@ -20,7 +20,7 @@ class GameMananger:
         "November", 
         "Decemeber"
     ]
-
+    #Stores how many days are in a month
     monthToDays = {
         1:31,
         2:28,
@@ -35,7 +35,7 @@ class GameMananger:
         11:30,
         12:31
         }
-
+    #stores the categories
     categories = {
         "world" : True,
         "sports" : True,
@@ -44,20 +44,29 @@ class GameMananger:
         "books" : True,
         "movies" : True
     }
-
-    headline = ""
-    date = ""
-    url = "" 
+    #The year to guess
+    year = 1970
+    #A dictionary in format headline:[date,url]. Used to reveal extra information after game has been won.
+    headlineWData = {}
+    #Instance of scraper
     scraper = scraper.Scraper()
+    #Number of guesses by the user
+    guesses = 0
+    #status of the current game
+    gameOver = False
 
     def __init__(self):
         self.newGame()
 
     def newGame(self):
-        self.guessesRemaining = 3
-        self.selectHeadline()
+        self.guesses = 0
+        self.year = random.choice(range(self.scraper.firstYear,self.scraper.lastYear+1))
+        print(self.year)
+        self.headlineWData = {}
+        self.addHeadline()
+        
 
-    def selectHeadline(self):
+    def addHeadline(self):
         #Pick category
         choices = []
 
@@ -65,11 +74,19 @@ class GameMananger:
             if self.categories[category]:
                choices.append(category)
         
-        line = self.scraper.getHeadline(random.choice(choices))
 
+        line = self.scraper.getHeadlineByYear(self.year, random.choice(choices))
+        #update data
+        self.headlineWData[line[0]] = [line[1],line[2]]
+        #return the new list of headlines
+        return list(self.headlineWData.keys())
+
+        """
         self.headline = line[0]
         self.date = line[1]
         self.url = line[2]
+        """
+
 
     #Make sure the date is in MM/DD/YYYY
     def validateDate(self, date):
@@ -93,10 +110,17 @@ class GameMananger:
         except:
             return False
 
-    def checkDateGuess(self, date):
-        if (self.guessesRemaining > 0 and self.validateDate(date)):
-            self.guessesRemaining -= 1
-            print(date)
-            return date == self.date
+    #
+    def checkDateGuess(self, year):
+        if(self.gameOver):
+            return
+
+        self.guesses += 1
+
+        self.gameOver = self.year == year
+
+        print(self.gameOver)
+
+        return self.gameOver
 
         

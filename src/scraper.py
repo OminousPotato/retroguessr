@@ -33,9 +33,8 @@ class Scraper:
         "movies":"Movies%7Cnyt%3A%2F%2Fsection%2F62b3d471-4ae5-5ac2-836f-cb7ad531c4cb"
     }
 
-    def getHeadline(self, categoryName):
+    def getHeadlineByYear(self, year, categoryName):
         try:
-            year = random.choice(range(self.firstYear,self.lastYear+1))
             month = random.choice(list(self.monthToDays.keys()))
             day = str(random.choice(range(1,self.monthToDays[month]+1)))
             categoryUrlParameter = self.categoryToUrlParameter[categoryName]
@@ -49,7 +48,8 @@ class Scraper:
             header_url = header.find_parent("a").get("href")
             return [header.text, day+"/"+month+"/"+str(year), header_url]
         except:
-            return self.getHeadline(categoryName)
+            return self.getHeadlineByYear(year, categoryName)
+
 
 
 
