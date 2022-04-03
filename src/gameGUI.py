@@ -2,7 +2,7 @@ import tkinter as tk
 from turtle import color, width
 import gameManager as model
 import scraper
-from tkinter import Toplevel, ttk
+from tkinter import PhotoImage, Toplevel, ttk
 import webbrowser
 
 manager = model.GameMananger()
@@ -63,6 +63,7 @@ def reset():
 root = tk.Tk()
 root.geometry("1060x400")
 root.title("RetroGuessr")
+root.iconphoto(True, PhotoImage(file = "rg_icon.png"))
 
 #The Menu Bar
 menuBar = tk.Menu(root)
