@@ -1,5 +1,5 @@
 import tkinter as tk
-from turtle import color
+from turtle import color, width
 import gameManager as model
 import scraper
 from tkinter import Toplevel, ttk
@@ -53,9 +53,15 @@ def openHelpMenu():
     is over, click on the url next to a headline to open the article in your browser (a NYT subscription may
     be necessary).""").pack()
 
+def reset():
+    manager.newGame()
+    updateTable()
+    updateGuessCount()
+
+
 #The root window
 root = tk.Tk()
-#root.geometry("400x400")
+root.geometry("1060x400")
 root.title("RetroGuessr")
 
 #The Menu Bar
@@ -65,7 +71,7 @@ menuBar.add_command(label="Help", command = openHelpMenu)
 #The Theme
 s = ttk.Style()
 s.theme_use("classic")
-label = tk.Label(root, text = "Guess The Year", font = ("Arial",30)).grid(row = 0, columnspan = 2)
+label = tk.Label(root, text = "RetroGuessr", font = ("Arial",30)).grid(row = 0, columnspan = 2)
 
 #create Treeview/table
 cols = ("Headline","Date","Article URL")
@@ -74,6 +80,9 @@ table = ttk.Treeview(root, columns = cols, show="headings")
 for col in cols:
     table.heading(col, text = col)
 
+table.column("#1", width=350)
+table.column("#2", width=350)
+table.column("#3", width=350)
 updateTable()
 
 table.bind('<ButtonRelease-1>', table_click_handler)
@@ -94,6 +103,9 @@ guessButton.grid(row = 4, column = 1)
 
 gameOverLabel = tk.Label(root, text="Guesses: " + str(manager.guesses))
 gameOverLabel.grid(row = 5, column = 0, columnspan=2)
+
+playAgainButton = tk.Button(root, text = "New Articles", command = reset)
+playAgainButton.grid(row = 6, column = 0, columnspan = 2) 
 
 root.config(menu=menuBar)
 root.mainloop()

@@ -74,8 +74,13 @@ class GameMananger:
             if self.categories[category]:
                choices.append(category)
         
+        while True:
+            try:
+                line = self.scraper.getHeadlineByYear(self.year, random.choice(choices))
+                break
+            except SyntaxError:
+                pass
 
-        line = self.scraper.getHeadlineByYear(self.year, random.choice(choices))
         #update data
         print(line[2])
         self.headlineWData[line[0]] = [line[1],line[2]]

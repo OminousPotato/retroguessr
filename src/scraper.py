@@ -50,7 +50,7 @@ class Scraper:
                 header_url = "https://nytimes.com" + header_url
             return [header.text, day+"/"+month+"/"+str(year), header_url]
         except:
-            return self.getHeadlineByYear(year, categoryName)
+            raise SyntaxError #hmm yes, syntax.
 
 
 
