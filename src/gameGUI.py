@@ -2,6 +2,7 @@ import tkinter as tk
 import gameManager as model
 import scraper
 from tkinter import ttk
+import webbrowser
 
 manager = model.GameMananger()
 
@@ -31,7 +32,15 @@ def updateTable():
         else:
             table.insert("","end",value=(headline,"?","?"))
 
-
+def table_click_handler(event):
+    selected = table.item(table.focus())
+    row = table.identify_row(event.y)
+    col = table.identify_column(event.x)
+    if row == "#1":
+        return
+    if(manager.gameOver and col == "#3"):
+        url = list(selected.values())[2][2]
+        webbrowser.open(url)
 
 
 root = tk.Tk()
@@ -48,6 +57,8 @@ for col in cols:
     table.heading(col, text = col)
 
 updateTable()
+
+table.bind('<ButtonRelease-1>', table_click_handler)
 
 table.grid(row = 1, column = 0, columnspan=2)
 
