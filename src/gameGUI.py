@@ -71,7 +71,7 @@ menuBar.add_command(label="Help", command = openHelpMenu)
 #The Theme
 s = ttk.Style()
 s.theme_use("classic")
-label = tk.Label(root, text = "RetroGuessr", font = ("Arial",30)).grid(row = 0, columnspan = 2)
+label = tk.Label(root, text = "RetroGuessr", font = ("Bernard MT Condensed",45)).grid(row = 0, columnspan = 2)
 
 #create Treeview/table
 cols = ("Headline","Date","Article URL")
