@@ -29,7 +29,7 @@ def updateTable():
         if(manager.gameOver):
             table.insert("","end",value=(headline,manager.headlineWData[headline][0],manager.headlineWData[headline][1]))
         else:
-            table.insert("","end",value=(headline,"",""))
+            table.insert("","end",value=(headline,"?","?"))
 
 
 
