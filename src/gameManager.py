@@ -59,6 +59,7 @@ class GameMananger:
         self.newGame()
 
     def newGame(self):
+        self.gameOver = False
         self.guesses = 0
         self.year = random.choice(range(self.scraper.firstYear,self.scraper.lastYear+1))
         print(self.year)

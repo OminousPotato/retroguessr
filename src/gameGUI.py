@@ -10,9 +10,21 @@ manager = model.GameMananger()
 def onGuess():
     if (manager.gameOver):
         return
-    year = years_clicked.get()
+    year = int(years_clicked.get())
     if not manager.checkDateGuess(int(year)):
+        if hintsOn.get():
+            hint.grid()
+        else:
+            hint.grid_remove()
+
+        if year < manager.year:
+            hint.config(text = "Your Guess Was Too Early")
+        elif year > manager.year:
+            hint.config(text = "Your Guess Was Too Late")
         manager.addHeadline()
+    else:
+        hint.grid_remove()
+    
     updateTable()
     updateGuessCount()
 
@@ -62,16 +74,26 @@ def reset():
 #The root window
 root = tk.Tk()
 root.geometry("1060x400")
+root.resizable(False,False)
 root.title("RetroGuessr")
 root.iconphoto(True, PhotoImage(file = "rg_icon.png"))
 
 #The Menu Bar
 menuBar = tk.Menu(root)
-menuBar.add_command(label="Help", command = openHelpMenu)
+
 
 bg = tk.PhotoImage(file="src/newspapers2.gif")
 bgLabel = tk.Label(root, image = bg)
 bgLabel.place(x=0, y=0, relwidth=1, relheight=1)
+
+#Options Menu Bar
+hintsOn = tk.BooleanVar()
+hintsOn.set(False)
+optionsMenu = tk.Menu(menuBar, tearoff = 0)
+optionsMenu.add_checkbutton(label = "Show Hints", onvalue = True, offvalue = False, variable = hintsOn)
+menuBar.add_cascade(label = "Options", menu = optionsMenu)
+#Help Button
+menuBar.add_command(label="Help", command = openHelpMenu)
 
 #The Theme
 s = ttk.Style()
@@ -101,6 +123,11 @@ years_clicked = tk.StringVar()
 years_clicked.set(str(1970))
 year_drop = tk.OptionMenu(root, years_clicked, *years)
 year_drop.grid(row = 4, column = 0)
+
+hint = tk.Label(root, text = "")
+#preps the label, but removes it. A Simple hint.grid() will bring it back with proper positioning
+hint.grid(row = 7, column = 0, columnspan=2)
+hint.grid_remove()
 
 guessButton = tk.Button(root, text="Guess!", command = onGuess)
 guessButton.grid(row = 4, column = 1)
