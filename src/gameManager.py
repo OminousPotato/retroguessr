@@ -69,7 +69,7 @@ class GameMananger:
         self.hintsOn = False
         self.guesses = 0
         self.year = random.choice(range(self.scraper.firstYear,self.scraper.lastYear+1))
-        print(self.year)
+        #print(self.year)
         self.headlineWData = {}
         self.addHeadline()
         
