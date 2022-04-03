@@ -90,7 +90,7 @@ class GameMananger:
                 pass
 
         #update data
-        print(line[2])
+        #print(line[2])
         self.headlineWData[line[0]] = [line[1],line[2]]
         #return the new list of headlines
         return list(self.headlineWData.keys())
