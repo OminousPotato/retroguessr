@@ -23,7 +23,7 @@ class Scraper:
     lastYear = 2009
 
     urlFormat = "https://www.nytimes.com/search?dropmab=true&endDate={date}&query=&sections={section}&sort=best&startDate={date}"
-
+    pre1981UrlFormat = "https://www.nytimes.com/search?dropmab=true&endDate={date}&query=&sort=best&startDate={date}"
     categoryToUrlParameter = {
         "sports":"Sports%7Cnyt%3A%2F%2Fsection%2F4381411b-670f-5459-8277-b181485a19ec",
         "world":"World%7Cnyt%3A%2F%2Fsection%2F70e865b6-cc70-5181-84c9-8368b3a5c34b",
@@ -40,7 +40,10 @@ class Scraper:
             categoryUrlParameter = self.categoryToUrlParameter[categoryName]
             if len(day) < 2:
                 day = "0" + day
-            page = requests.get(self.urlFormat.format(date=str(year)+month+day, section = categoryUrlParameter))
+            if year < 1981:
+                page = requests.get(self.pre1981UrlFormat.format(date=str(year)+month+day, section = categoryUrlParameter))
+            else:
+                page = requests.get(self.urlFormat.format(date=str(year)+month+day, section = categoryUrlParameter))
             soup = BeautifulSoup(page.content, "html.parser")
             header = soup.find("h4")
             if (header.text == None or len(header.text) == 0):
